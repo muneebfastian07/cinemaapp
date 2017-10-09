@@ -1,0 +1,72 @@
+<%= render 'stats'%>
+<div class="row">
+	<div class="col-md-6">
+		<div id="chartbar"></div>
+	</div>
+	<div class="col-md-6">
+		<div id="chartContainer" ></div>
+	</div>
+</div>
+<script type="text/javascript">
+	window.onload = function () {
+	var chart1 = new CanvasJS.Chart("chartbar", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Top Five Teams"              
+		},
+		animationEnabled: true,   // change to true
+		exportEnabled: true,
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			dataPoints: [
+				{ label: '<%#=@top_five.first.try(:name)%>',  y: <%#=@top_five.first.win_matches.count rescue 0%>  },
+				{ label: "<%#=@top_five.second.try(:name)%>", y: <%#=@top_five.second.win_matches.count  rescue  0%>   },
+				{ label: "<%#=@top_five.third.try(:name)%>", y: <%#=@top_five.third.win_matches.count  rescue 0%>   },
+				{ label: "<%#=@top_five.fourth.try(:name)%>",  y: <%#=@top_five.fourth.win_matches.count  rescue 0%>   },
+				{ label: "<%#=@top_five.fifth.try(:name)%>",  y: <%#=@top_five.fifth.win_matches.count   rescue 0%>   }
+			]
+		}
+		]
+	});
+	chart1.render();
+
+
+	var chart = new CanvasJS.Chart("chartContainer",
+  {
+    title:{
+      fontFamily: "arial black"
+    },
+    animationEnabled: true,
+    exportEnabled: true,
+    legend: {
+      verticalAlign: "bottom",
+      horizontalAlign: "center"
+    },
+    theme: "theme1",
+    data: [
+    {        
+      type: "pie",
+      indexLabelFontFamily: "Garamond",       
+      indexLabelFontSize: 20,
+      indexLabelFontWeight: "bold",
+      startAngle:0,
+      indexLabelFontColor: "MistyRose",       
+      indexLabelLineColor: "darkgrey", 
+      indexLabelPlacement: "inside", 
+      toolTipContent: "{name}: {y}",
+      showInLegend: true,
+      dataPoints: [
+        {  y: <%#=@top_five.first.win_matches.count rescue 0%>, name: "<%#=@top_five.first.try(:name)%>", legendMarkerType: "triangle"},
+        {  y:  <%#=@top_five.second.win_matches.count  rescue  0%>, name: "<%#=@top_five.second.try(:name)%>", legendMarkerType: "square"},
+        {  y:  <%#=@top_five.third.win_matches.count  rescue 0%>, name: "<%#=@top_five.third.try(:name)%>", legendMarkerType: "circle"}
+      ]
+    }
+    ]
+  });
+  chart.render();
+}
+</script>
+<%#= javascript_include_tag "admin/draw_charts" %>
+
